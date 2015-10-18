@@ -4,6 +4,8 @@
 #define ACCELERATION_FACTOR 4.0
 #define INERTIAL_FACTOR 7.5
 
+    int mLeft, mRight;
+
 Robby::Robby(int width, int height, double _speed):
 sf::RectangleShape(sf::Vector2f(width,height)) {
     setFillColor(sf::Color(0, 0, 0));
@@ -15,9 +17,9 @@ sf::RectangleShape(sf::Vector2f(width,height)) {
 
 
 void Robby::goAccel(int x, int y) {
-    int mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mLeft * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
+    mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mLeft * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
 
-    int mRight = (abs(y) > THRESH) ? (y + mRight * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mRight * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
+    mRight = (abs(y) > THRESH) ? (y + mRight * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mRight * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
 
     go(mLeft,mRight);
 }

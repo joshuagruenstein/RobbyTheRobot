@@ -15,6 +15,7 @@ public:
 protected:
     sf::Clock moveClock;
     double speed;
+    int mLeft, mRight;
 };
 
 #endif
