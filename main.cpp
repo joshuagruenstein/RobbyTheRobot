@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "ResourcePath.hpp"
 #include <zmq.hpp>
+#include <iostream>
 #include "Robby.h"
 
 int main(int, char const**) {
@@ -10,11 +11,14 @@ int main(int, char const**) {
 
     zmq::context_t context (1);
     zmq::socket_t socket (context, ZMQ_REP);
-    socket.bind ("tcp://*:5555");
+    socket.connect("tcp://localhost:5556");
     
     while (window.isOpen()) {
         zmq::message_t input;
         socket.recv(&input);
+        
+        std::string inString(static_cast<char*>(input.data()));
+        std::cout << inString << "\n";
         
         sf::Event event;
         while (window.pollEvent(event)) {
