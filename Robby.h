@@ -7,6 +7,9 @@
 #include <iostream>
 #include <math.h>
 
+
+/// adapted from the Fido simulator developed by
+/// Josh Gruenstein and Michael Truell
 class Robby : public sf::RectangleShape {
 public:
     Robby(int width, int height, double _speed);

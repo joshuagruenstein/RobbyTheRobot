@@ -23,7 +23,6 @@ void Robby::goAccel(int x, int y) {
     go(mLeft,mRight);
 }
 
-/// creds to http://chess.eecs.berkeley.edu/eecs149/documentation/differentialDrive.pdf
 void Robby::go(int motLeft,int motRight) {
     double mLeft = -(((double)motLeft)/200)*speed;
     double mRight = -(((double)motRight)/200)*speed;
