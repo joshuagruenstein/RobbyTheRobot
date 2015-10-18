@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include "ResourcePath.hpp"
+#include "Robby.h"
 
 int main(int, char const**) {
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
+    
+    Robby robot(100,80,1.5);
 
     while (window.isOpen()) {
         sf::Event event;
