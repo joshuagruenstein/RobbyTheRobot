@@ -15,7 +15,6 @@ sf::RectangleShape(sf::Vector2f(width,height)) {
     speed = _speed;
 }
 
-
 void Robby::goAccel(int x, int y) {
     mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mLeft * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
 
@@ -24,7 +23,7 @@ void Robby::goAccel(int x, int y) {
     go(mLeft,mRight);
 }
 
-// creds to http://chess.eecs.berkeley.edu/eecs149/documentation/differentialDrive.pdf
+/// creds to http://chess.eecs.berkeley.edu/eecs149/documentation/differentialDrive.pdf
 void Robby::go(int motLeft,int motRight) {
     double mLeft = -(((double)motLeft)/200)*speed;
     double mRight = -(((double)motRight)/200)*speed;
