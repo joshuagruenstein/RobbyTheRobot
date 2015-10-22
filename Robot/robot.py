@@ -42,7 +42,7 @@ def beginSim():
 	print 'connection broken'
 
 def parseSensors(data):
-	# add stuff
+	return # add stuff
 
 def byeBye():
 	running = False
