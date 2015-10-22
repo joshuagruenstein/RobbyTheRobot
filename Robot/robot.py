@@ -1,10 +1,14 @@
 import socket
+from threading import Thread
+from time import sleep
+import sys
 
 HOST = '127.0.0.1'
 PORT = 50007
 
-mLeft = 50.0;
-mRight = 50.0;
+mLeft = 0;
+mRight = 0;
+running = True;
 
 def init():
 	global s
@@ -19,18 +23,23 @@ def waitForStart():
 	conn, addr = s.accept()
 	print 'connected to simulator'
 
-def updateSim(m1,m2):
-    data = conn.recv(1024)
-    if not data: return False
-    conn.send('('+str(m1)+','+str(m2)+')')
-    return True
+	thread = Thread(target=beginSim, args =[])
+	thread.start()
 
-init()
-waitForStart()
+def beginSim():
+	global running
+	global mLeft
+	global mRight
+	while running:
+	    data = conn.recv(1024)
+	    if not data: break
+	    conn.send(str(mLeft)+','+str(mRight)+'|')
+	running = False
+	conn.close()
+	print 'connection broken'
 
-while 1:
-	if not updateSim(mLeft,mRight): break
+def byeBye():
+	running = False;
 
-
-conn.close()
-print 'connection broken'
+def isRunning():
+	return running
