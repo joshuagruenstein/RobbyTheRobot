@@ -6,6 +6,8 @@
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
+#include <vector>
+#include <sstream>
 
 #include "ResourcePath.hpp"
 #include "Robby.h"
@@ -38,13 +40,27 @@ int main(int, char const**) {
     Robby robot(100,80,1.5);
     
     while (window.isOpen()) {
+        // GET INPUT BUFFER
         sprintf( buffer, "%s", "yo" );
         send(connectionFd, buffer, strlen(buffer), 0);
         sprintf( buffer, "%s", "" );
         recv(connectionFd, buffer, MAX_BUFFER, 0);
-
         std::cout << buffer << "\n";
         
+        // PROCESS INPUT
+        std::vector<double> mVect;
+        std::string mString(buffer);
+        std::string::size_type pos = mString.find('/');
+        if (pos != std::string::npos) mString = mString.substr(0, pos);
+        std::stringstream ss(mString);
+        double i; while (ss >> i) {
+            mVect.push_back(i);
+            if (ss.peek()==',') ss.ignore();
+        }
+        
+        // MOVE ROBOT
+        robot.goAccel(mVect[0],mVect[1]);
+
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -55,8 +71,10 @@ int main(int, char const**) {
                 window.close();
             }
         }
+        
 
         window.clear(sf::Color(255,255,255));
+        window.draw(robot);
         window.display();
         
     }

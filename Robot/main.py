@@ -1,14 +1,15 @@
 import robot
-from random import randint
-
-robot.mLeft = 100
-robot.mRight = 100
+from time import sleep
 
 robot.init()
 robot.waitForStart()
 
 while robot.isRunning():
-	robot.mLeft = randint(0,100)
-	robot.mRight = randint(0,100)
+	robot.mLeft = 100
+	robot.mRight = 100
+	sleep(0.5)
+	robot.mLeft = -100
+	robot.mRight = -100
+	sleep(0.5)
 
 robot.byeBye()

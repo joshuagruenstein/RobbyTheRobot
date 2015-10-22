@@ -43,3 +43,6 @@ def byeBye():
 
 def isRunning():
 	return running
+
+def delay(milis):
+	sleep()
