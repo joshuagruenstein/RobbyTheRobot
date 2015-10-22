@@ -29,16 +29,17 @@ void Robby::go(int motLeft,int motRight) {
     
     double xprime,yprime,rprime;
     double length = getSize().x;
-    double time = moveClock.restart().asMilliseconds();
+    deltat = moveClock.restart().asMilliseconds();
     
     double rX = getPosition().x;
     double rY = getPosition().y;
     double rTheta = getRotation()*0.0174532925;
     
     if (mLeft == mRight) {
-        xprime = rX + mLeft*cos(rTheta)*time;
-        yprime = rY + mLeft*sin(rTheta)*time;
+        xprime = rX + mLeft*cos(rTheta)*deltat;
+        yprime = rY + mLeft*sin(rTheta)*deltat;
         rprime = rTheta;
+        deltar = 0;
     } else {
         double radius = (length/2)*(mLeft+mRight)/(mRight-mLeft);
         double omega = (mRight-mLeft)/length;
@@ -46,13 +47,18 @@ void Robby::go(int motLeft,int motRight) {
         double iccX = rX - radius*sin(rTheta);
         double iccY = rY + radius*cos(rTheta);
         
-        xprime = iccX + (cos(omega*time)*(rX-iccX)+
-                         -sin(omega*time)*(rY-iccY));
-        yprime = iccY + (sin(omega*time)*(rX-iccX)+
-                         cos(omega*time)*(rY-iccY));
-        rprime = rTheta + omega*time;
+        xprime = iccX + (cos(omega*deltat)*(rX-iccX)+
+                         -sin(omega*deltat)*(rY-iccY));
+        yprime = iccY + (sin(omega*deltat)*(rX-iccX)+
+                         cos(omega*deltat)*(rY-iccY));
+        deltar = omega*deltat;
+        rprime = rTheta + deltar;
     }
     
     setPosition(xprime,yprime);
     setRotation(rprime*57.2957795);
+}
+
+double Robby::getGyro() {
+    return (deltar/deltat);
 }

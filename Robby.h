@@ -15,9 +15,10 @@ public:
     Robby(int width, int height, double _speed);
     void go(int motLeft, int motRight);
     void goAccel(int motLeft, int motRight);
+    double getGyro(); /// given in radians/millisec
 protected:
     sf::Clock moveClock;
-    double speed;
+    double speed, deltat, deltar;
     int mLeft, mRight;
 };
 
