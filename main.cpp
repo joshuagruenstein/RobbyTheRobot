@@ -1,24 +1,49 @@
 #include <SFML/Graphics.hpp>
-#include "ResourcePath.hpp"
-#include <zmq.hpp>
 #include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "ResourcePath.hpp"
 #include "Robby.h"
 
+#define MAX_BUFFER    128
+#define HOST        "127.0.0.1"
+#define PORT         50007
+
 int main(int, char const**) {
+    int connectionFd, rc, index = 0, limit = MAX_BUFFER;
+    struct sockaddr_in servAddr, localAddr;
+    char buffer[MAX_BUFFER+1];
+    
+    memset(&servAddr, 0, sizeof(servAddr));
+    servAddr.sin_family = AF_INET;
+    servAddr.sin_port = htons(PORT);
+    servAddr.sin_addr.s_addr = inet_addr(HOST);
+    
+    connectionFd = socket(AF_INET, SOCK_STREAM, 0);
+    
+    localAddr.sin_family = AF_INET;
+    localAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    localAddr.sin_port = htons(0);
+    rc = bind(connectionFd,(struct sockaddr *) &localAddr, sizeof(localAddr));
+    
+    connect(connectionFd,(struct sockaddr *)&servAddr, sizeof(servAddr));
+    
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
     
     Robby robot(100,80,1.5);
-
-    zmq::context_t context (1);
-    zmq::socket_t socket (context, ZMQ_REP);
-    socket.connect("tcp://localhost:5556");
     
     while (window.isOpen()) {
-        zmq::message_t input;
-        socket.recv(&input);
-        
-        std::string inString(static_cast<char*>(input.data()));
-        std::cout << inString << "\n";
+        sprintf( buffer, "%s", "yo" );
+        send(connectionFd, buffer, strlen(buffer), 0);
+        sprintf( buffer, "%s", "" );
+        recv(connectionFd, buffer, MAX_BUFFER, 0);
+
+        std::cout << buffer << "\n";
         
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -33,7 +58,8 @@ int main(int, char const**) {
 
         window.clear(sf::Color(255,255,255));
         window.display();
+        
     }
-
+    close(connectionFd);
     return EXIT_SUCCESS;
 }
