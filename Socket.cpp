@@ -1,8 +1,8 @@
 #include "Socket.h"
 
-#define MAX_BUFFER    128
-#define HOST        "127.0.0.1"
-#define PORT         50007
+#define MAX_BUFFER 128
+#define HOST "127.0.0.1"
+#define PORT 50007
 
 Socket::Socket(void) {
     limit = MAX_BUFFER;

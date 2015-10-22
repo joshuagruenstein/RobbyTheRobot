@@ -14,7 +14,8 @@ while robot.isRunning():
 
 	robot.mLeft = 40
 	robot.mRight = -40
-
+	
 	sleep(0.32)
+
 
 robot.byeBye()

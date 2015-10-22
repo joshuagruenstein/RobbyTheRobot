@@ -1,15 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include <iostream>
-#include <time.h>
-#include <stdio.h>
-#include <string.h>
-#include <vector>
-#include <sstream>
 
 #include "Robby.h"
 #include "Socket.h"
-
-
 
 int main(int, char const**) {
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
@@ -34,7 +26,5 @@ int main(int, char const**) {
         window.clear(sf::Color(255,255,255));
         window.draw(robot);
         window.display();
-        
-    }
-    return EXIT_SUCCESS;
+    } return EXIT_SUCCESS;
 }

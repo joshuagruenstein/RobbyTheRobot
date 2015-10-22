@@ -8,7 +8,7 @@ PORT = 50007
 
 mLeft = 0
 mRight = 0
-gyro = 0
+gyro = 0.0
 
 running = True
 
@@ -29,9 +29,7 @@ def waitForStart():
 	thread.start()
 
 def beginSim():
-	global running
-	global mLeft
-	global mRight
+	global running, mLeft, mRight
 	while running:
 	    data = conn.recv(1024)
 	    if not data: break
@@ -42,6 +40,9 @@ def beginSim():
 	print 'connection broken'
 
 def parseSensors(data):
+	global gyro
+	senseList = data.split()
+	gyro = float(senseList[0])
 	return # add stuff
 
 def byeBye():
