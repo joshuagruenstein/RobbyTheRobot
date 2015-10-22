@@ -1,22 +1,19 @@
 import socket
 from threading import Thread
-from time import sleep
-import sys
 
 HOST = '127.0.0.1'
 PORT = 50007
 
-mLeft = 0
-mRight = 0
+mLeft = 0.0
+mRight = 0.0
 gyro = 0.0
 
 running = True
 
-def init():
-	global s
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	s.bind((HOST, PORT))
-	s.listen(1)
+global s
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen(1)
 
 def waitForStart():
 	global conn

@@ -1,10 +1,7 @@
 import robot
 from time import sleep
-import math
 
-robot.init()
 robot.waitForStart()
-
 
 while robot.isRunning():
 	robot.mLeft = 100
