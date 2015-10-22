@@ -9,7 +9,6 @@
 #include <vector>
 #include <sstream>
 
-#include "ResourcePath.hpp"
 #include "Robby.h"
 
 #define MAX_BUFFER    128
