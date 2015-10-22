@@ -4,7 +4,7 @@
 #define ACCELERATION_FACTOR 4.0
 #define INERTIAL_FACTOR 7.5
 
-    int mLeft, mRight;
+int mLeft, mRight;
 
 Robby::Robby(int width, int height, double _speed):
 sf::RectangleShape(sf::Vector2f(width,height)) {
