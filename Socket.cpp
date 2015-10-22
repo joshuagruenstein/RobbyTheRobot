@@ -39,7 +39,9 @@ std::vector<double> Socket::getMotors() {
 
 std::string Socket::getResponse(std::string query) {
     char buffer[MAX_BUFFER+1];
+    sprintf(buffer, "%s", query.c_str());
     send(connectionFd, buffer, strlen(buffer), 0);
+    sprintf(buffer, "%s", "");
     recv(connectionFd, buffer, MAX_BUFFER, 0);
     std::string mString(buffer);
     return mString;
