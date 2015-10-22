@@ -60,5 +60,5 @@ void Robby::go(int motLeft,int motRight) {
 }
 
 double Robby::getGyro() {
-    return (deltar/deltat);
+    return (deltar/deltat)*1000;
 }
