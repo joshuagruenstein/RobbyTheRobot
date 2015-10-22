@@ -25,8 +25,8 @@ Socket::~Socket(void) {
     close(connectionFd);
 }
 
-std::vector<double> Socket::getMotors() {
-    std::string mString = getResponse("yowazzup");
+std::vector<double> Socket::getMotors(std::vector<double> sensors) {
+    std::string mString = getResponse(senseString(sensors));
     std::vector<double> mVect;
     std::string::size_type pos = mString.find('/');
     if (pos != std::string::npos) mString = mString.substr(0, pos);
@@ -35,6 +35,15 @@ std::vector<double> Socket::getMotors() {
         mVect.push_back(i);
         if (ss.peek()==',') ss.ignore();
     } return mVect;
+}
+
+std::string Socket::senseString(std::vector<double> sensors) {
+    std::ostringstream oss;
+    if (!sensors.empty()) {
+        std::copy(sensors.begin(), sensors.end()-1,
+                  std::ostream_iterator<double>(oss, ","));
+        oss << sensors.back();
+    } return oss.str();
 }
 
 std::string Socket::getResponse(std::string query) {

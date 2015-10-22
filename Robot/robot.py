@@ -6,9 +6,11 @@ import sys
 HOST = '127.0.0.1'
 PORT = 50007
 
-mLeft = 0;
-mRight = 0;
-running = True;
+mLeft = 0
+mRight = 0
+gyro = 0
+
+running = True
 
 def init():
 	global s
@@ -34,12 +36,16 @@ def beginSim():
 	    data = conn.recv(1024)
 	    if not data: break
 	    conn.send(str(mLeft)+','+str(mRight)+'|')
+	    parseSensors(data)
 	running = False
 	conn.close()
 	print 'connection broken'
 
+def parseSensors(data):
+	# add stuff
+
 def byeBye():
-	running = False;
+	running = False
 
 def isRunning():
 	return running

@@ -16,10 +16,11 @@ class Socket {
 public:
     Socket();
     ~Socket();
-    std::vector<double> getMotors();
+    std::vector<double> getMotors(std::vector<double> sensors);
     
 private:
     std::string getResponse(std::string query);
+    std::string senseString(std::vector<double> sensors);
     int connectionFd, rc, index = 0, limit;
     struct sockaddr_in servAddr, localAddr;
 
