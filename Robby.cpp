@@ -16,10 +16,10 @@ sf::RectangleShape(sf::Vector2f(width,height)) {
 }
 
 void Robby::goAccel(int x, int y) {
-    mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mLeft * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
-
-    mRight = (abs(y) > THRESH) ? (y + mRight * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1) : mRight * INERTIAL_FACTOR / (INERTIAL_FACTOR + 1);
-
+    mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1)
+                              : (mLeft * INERTIAL_FACTOR) / (INERTIAL_FACTOR + 1);
+    mRight = (abs(y) > THRESH) ? (y + mRight * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1)
+                               : (mRight * INERTIAL_FACTOR) / (INERTIAL_FACTOR + 1);
     go(mLeft,mRight);
 }
 

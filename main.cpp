@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 #include <time.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,73 +7,34 @@
 #include <sstream>
 
 #include "Robby.h"
+#include "Socket.h"
 
-#define MAX_BUFFER    128
-#define HOST        "127.0.0.1"
-#define PORT         50007
+
 
 int main(int, char const**) {
-    int connectionFd, rc, index = 0, limit = MAX_BUFFER;
-    struct sockaddr_in servAddr, localAddr;
-    char buffer[MAX_BUFFER+1];
-    
-    memset(&servAddr, 0, sizeof(servAddr));
-    servAddr.sin_family = AF_INET;
-    servAddr.sin_port = htons(PORT);
-    servAddr.sin_addr.s_addr = inet_addr(HOST);
-    
-    connectionFd = socket(AF_INET, SOCK_STREAM, 0);
-    
-    localAddr.sin_family = AF_INET;
-    localAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    localAddr.sin_port = htons(0);
-    rc = bind(connectionFd,(struct sockaddr *) &localAddr, sizeof(localAddr));
-    
-    connect(connectionFd,(struct sockaddr *)&servAddr, sizeof(servAddr));
-    
+        
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
     
     Robby robot(100,80,1.5);
+    Socket sock;
     
     while (window.isOpen()) {
-        // GET INPUT BUFFER
-        sprintf( buffer, "%s", "yo" );
-        send(connectionFd, buffer, strlen(buffer), 0);
-        sprintf( buffer, "%s", "" );
-        recv(connectionFd, buffer, MAX_BUFFER, 0);
-        std::cout << buffer << "\n";
-        
-        // PROCESS INPUT
-        std::vector<double> mVect;
-        std::string mString(buffer);
-        std::string::size_type pos = mString.find('/');
-        if (pos != std::string::npos) mString = mString.substr(0, pos);
-        std::stringstream ss(mString);
-        double i; while (ss >> i) {
-            mVect.push_back(i);
-            if (ss.peek()==',') ss.ignore();
-        }
-        
-        // MOVE ROBOT
+        std::vector<double> mVect = sock.getMotors();
         robot.goAccel(mVect[0],mVect[1]);
 
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window.close();
-            }
-
-            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
+            } if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) {
                 window.close();
             }
         }
-        
 
         window.clear(sf::Color(255,255,255));
         window.draw(robot);
         window.display();
         
     }
-    close(connectionFd);
     return EXIT_SUCCESS;
 }
