@@ -17,10 +17,13 @@ public:
     void go(int motLeft, int motRight);
     void goAccel(int motLeft, int motRight);
     double getGyro(); /// given in radians/sec
-    std::vector<sf::CircleShape> drawPen(int traceWidth);
+    std::vector<sf::RectangleShape> drawPen(int traceWidth);
 protected:
+    sf::RectangleShape drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width);
+    
     sf::Clock moveClock;
-    std::vector<sf::CircleShape> penPoints;
+    std::vector<sf::RectangleShape> penLines;
+    sf::Vector2f lastPoint;
     double speed, deltat, deltar;
     int mLeft, mRight;
 };

@@ -15,13 +15,26 @@ sf::RectangleShape(sf::Vector2f(width,height)) {
     speed = _speed;
 }
 
-std::vector<sf::CircleShape> Robby::drawPen(int traceWidth) {
-    sf::CircleShape point(traceWidth/2);
-    point.setFillColor(sf::Color(0,0,0));
-    point.setPosition(getPosition());
-    penPoints.push_back(point);
+sf::RectangleShape Robby::drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width) {
+    float length = sqrt(pow(pTwo.x-pOne.x,2)+pow(pTwo.y-pOne.y,2));
     
-    return penPoints;
+    sf::RectangleShape line(sf::Vector2f(width, length));
+    
+    line.setOrigin(width/2,0);
+    line.setFillColor(sf::Color(0, 0, 0));
+    line.setOutlineColor(sf::Color(0, 0, 0));
+    
+    line.rotate(getRotation()+90);
+    line.setPosition(pOne);
+    
+    return line;
+}
+
+std::vector<sf::RectangleShape> Robby::drawPen(int traceWidth) {
+    if (traceWidth != 0)
+        penLines.push_back(drawLine(lastPoint,getPosition(),traceWidth));
+    lastPoint = getPosition();
+    return penLines;
 }
 
 
