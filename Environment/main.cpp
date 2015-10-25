@@ -7,6 +7,7 @@ int main(int, char const**) {
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
     
     Robby robot(100,80,1.5);
+    robot.setPosition(window.getSize().x/2, window.getSize().y/2);
     Socket sock;
     
     while (window.isOpen()) {
