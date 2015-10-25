@@ -3,7 +3,11 @@ A versatile simulator for programming various robotic tasks.  The simulator envi
 
 ### Current Features
 
-A differential-drive robot can be accurately kinematically simulated and controlled (with or without acceleration).  A gyro sensor has also been implemented for reading rotational velocity.  Should work on Mac and Linux, but Windows is unlikely due to different socket-y stuff.
+- Differential-drive motor control with acceleration
+- Gyro sensor for reading rotational velocity
+- Pen control for drawing (inspired by the logo turtle)
+- Scalable input and output structures for adding virtual io
+- Mac and Linux support
 
 ### Progress
 
