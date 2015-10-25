@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <math.h>
+#include <vector>
 
 
 /// adapted from the Fido simulator developed by
@@ -16,8 +17,10 @@ public:
     void go(int motLeft, int motRight);
     void goAccel(int motLeft, int motRight);
     double getGyro(); /// given in radians/sec
+    std::vector<sf::CircleShape> drawPen(int traceWidth);
 protected:
     sf::Clock moveClock;
+    std::vector<sf::CircleShape> penPoints;
     double speed, deltat, deltar;
     int mLeft, mRight;
 };

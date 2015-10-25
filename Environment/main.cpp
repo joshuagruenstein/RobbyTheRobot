@@ -14,6 +14,7 @@ int main(int, char const**) {
         sensors.push_back(robot.getGyro());
         std::vector<double> mVect = sock.getMotors(sensors);
         robot.goAccel(mVect[0],mVect[1]);
+        std::vector<sf::CircleShape> points = robot.drawPen(mVect[2]);
 
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -24,7 +25,10 @@ int main(int, char const**) {
         }
 
         window.clear(sf::Color(255,255,255));
+        
+        for (auto &i:points) window.draw(i);
         window.draw(robot);
+        
         window.display();
     } return EXIT_SUCCESS;
 }

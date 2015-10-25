@@ -15,6 +15,16 @@ sf::RectangleShape(sf::Vector2f(width,height)) {
     speed = _speed;
 }
 
+std::vector<sf::CircleShape> Robby::drawPen(int traceWidth) {
+    sf::CircleShape point(traceWidth/2);
+    point.setFillColor(sf::Color(0,0,0));
+    point.setPosition(getPosition());
+    penPoints.push_back(point);
+    
+    return penPoints;
+}
+
+
 void Robby::goAccel(int x, int y) {
     mLeft = (abs(x) > THRESH) ? (x + mLeft * ACCELERATION_FACTOR) / (ACCELERATION_FACTOR + 1)
                               : (mLeft * INERTIAL_FACTOR) / (INERTIAL_FACTOR + 1);
