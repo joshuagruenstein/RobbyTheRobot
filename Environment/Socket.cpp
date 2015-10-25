@@ -5,6 +5,11 @@
 #define PORT 50007
 
 Socket::Socket(void) {
+    #ifdef WIN32
+        WSADATA wsaData;
+        if(WSAStartup(WINSOCKVERSION, &wsaData) != 0) return 1;
+    #endif
+    
     limit = MAX_BUFFER;
     memset(&servAddr, 0, sizeof(servAddr));
     servAddr.sin_family = AF_INET;

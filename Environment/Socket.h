@@ -1,13 +1,20 @@
 #ifndef Socket_h
 #define Socket_h
 
+#ifdef WIN32
+    #include <sys/types.h>
+    #include <Winsock2.h>
+    #define WINSOCKVERSION MAKEWORD(2,2)
+#else
+    #include <sys/socket.h>
+    #include <arpa/inet.h>
+    #include <unistd.h>
+    #include <time.h>
+#endif
+
 #include <stdio.h>
 #include <vector>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 #include <iostream>
-#include <time.h>
 #include <string.h>
 #include <sstream>
 
