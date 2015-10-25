@@ -7,6 +7,7 @@ PORT = 50007
 mLeft = 0.0
 mRight = 0.0
 gyro = 0.0
+penIs = False
 
 running = True
 
@@ -26,15 +27,21 @@ def waitForStart():
 	thread.start()
 
 def beginSim():
-	global running, mLeft, mRight
+	global running
 	while running:
 	    data = conn.recv(1024)
 	    if not data: break
-	    conn.send(str(mLeft)+','+str(mRight)+'|')
+	    conn.send(outString())
 	    parseSensors(data)
 	running = False
 	conn.close()
 	print 'connection broken'
+
+def outString():
+	global penIs, mLeft, mRight
+	penWidth = 5 if penIs else 0
+	outey = str(mLeft)+','+str(mRight)+','+str(penWidth)+'|'
+	return outey
 
 def parseSensors(data):
 	global gyro

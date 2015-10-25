@@ -2,6 +2,7 @@ import robot
 from time import sleep
 
 robot.waitForStart()
+robot.penIs = True
 
 while robot.isRunning():
 	robot.mLeft = 100
