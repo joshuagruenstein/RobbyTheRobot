@@ -6,8 +6,8 @@
 
 int mLeft, mRight;
 
-Robby::Robby(int width, int height, double _speed):
-sf::RectangleShape(sf::Vector2f(width,height)) {
+Robby::Robby(const sf::RenderWindow& window,int width, int height, double _speed):
+sf::RectangleShape(sf::Vector2f(width,height)), hostWindow(window) {
     setFillColor(sf::Color(0, 0, 0));
     setPosition(500,400);
     setOrigin(width/2,height/2);
@@ -84,4 +84,10 @@ void Robby::go(int motLeft,int motRight) {
 
 double Robby::getGyro() {
     return (deltar/deltat)*1000;
+}
+
+double Robby::getDistance() {
+    double slope = tan(getRotation()*0.0174533);
+    std::cout << slope << "\n";
+    return 1.0;
 }

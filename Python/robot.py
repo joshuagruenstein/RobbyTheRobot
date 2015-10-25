@@ -43,7 +43,7 @@ def outString():
 
 def parseSensors(data):
 	global gyro
-	senseList = data.split()
+	senseList = data.split(',')
 	gyro = float(senseList[0])
 
 def penUp():

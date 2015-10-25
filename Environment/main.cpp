@@ -6,13 +6,15 @@
 int main(int, char const**) {
     sf::RenderWindow window(sf::VideoMode(1300, 1000), "Robby the Robot");
     
-    Robby robot(100,80,1.5);
+    Robby robot(window,100,80,1.5);
     robot.setPosition(window.getSize().x/2, window.getSize().y/2);
     Socket sock;
     
     while (window.isOpen()) {
         std::vector<double> sensors;
+        sensors.push_back(robot.getDistance());
         sensors.push_back(robot.getGyro());
+        
         std::vector<double> oVect = sock.getOutputs(sensors);
         robot.goAccel(oVect[0],oVect[1]);
         std::vector<sf::RectangleShape> lines = robot.drawPen(oVect[2]);

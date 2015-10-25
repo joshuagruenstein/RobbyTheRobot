@@ -13,14 +13,15 @@
 /// Josh Gruenstein and Michael Truell
 class Robby : public sf::RectangleShape {
 public:
-    Robby(int width, int height, double _speed);
+    Robby(const sf::RenderWindow& window,int width, int height, double _speed);
     void go(int motLeft, int motRight);
     void goAccel(int motLeft, int motRight);
     double getGyro(); /// given in radians/sec
+    double getDistance();
     std::vector<sf::RectangleShape> drawPen(int traceWidth);
 protected:
     sf::RectangleShape drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width);
-    
+    const sf::RenderWindow& hostWindow;
     sf::Clock moveClock;
     std::vector<sf::RectangleShape> penLines;
     sf::Vector2f lastPoint;
