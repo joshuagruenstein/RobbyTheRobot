@@ -12,9 +12,9 @@ int main(int, char const**) {
     while (window.isOpen()) {
         std::vector<double> sensors;
         sensors.push_back(robot.getGyro());
-        std::vector<double> mVect = sock.getMotors(sensors);
-        robot.goAccel(mVect[0],mVect[1]);
-        std::vector<sf::CircleShape> points = robot.drawPen(mVect[2]);
+        std::vector<double> oVect = sock.getOutputs(sensors);
+        robot.goAccel(oVect[0],oVect[1]);
+        std::vector<sf::CircleShape> points = robot.drawPen(oVect[2]);
 
         sf::Event event;
         while (window.pollEvent(event)) {

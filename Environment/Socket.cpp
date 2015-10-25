@@ -25,10 +25,10 @@ Socket::~Socket(void) {
     close(connectionFd);
 }
 
-std::vector<double> Socket::getMotors(std::vector<double> sensors) {
+std::vector<double> Socket::getOutputs(std::vector<double> sensors) {
     std::string mString = getResponse(senseString(sensors));
     std::vector<double> mVect;
-    std::string::size_type pos = mString.find('/');
+    std::string::size_type pos = mString.find('|');
     if (pos != std::string::npos) mString = mString.substr(0, pos);
     std::stringstream ss(mString);
     double i; while (ss >> i) {
