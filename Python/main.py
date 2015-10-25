@@ -2,7 +2,8 @@ import robot
 from time import sleep
 
 robot.waitForStart()
-robot.penIs = True
+
+robot.penDown()
 
 while robot.isRunning():
 	robot.mLeft = 100

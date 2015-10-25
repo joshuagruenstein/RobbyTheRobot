@@ -1,6 +1,6 @@
 #include "Socket.h"
 
-#define MAX_BUFFER 128
+#define MAX_BUFFER 256
 #define HOST "127.0.0.1"
 #define PORT 50007
 

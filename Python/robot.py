@@ -8,17 +8,16 @@ mLeft = 0.0
 mRight = 0.0
 gyro = 0.0
 penIs = False
+penWidth = 5
 
 running = True
 
-global s
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
 
 def waitForStart():
-	global conn
-	global addr
+	global conn, addr
 	print 'waiting for start...'
 	conn, addr = s.accept()
 	print 'connected to simulator'
@@ -29,7 +28,7 @@ def waitForStart():
 def beginSim():
 	global running
 	while running:
-	    data = conn.recv(1024)
+	    data = conn.recv(256)
 	    if not data: break
 	    conn.send(outString())
 	    parseSensors(data)
@@ -38,18 +37,25 @@ def beginSim():
 	print 'connection broken'
 
 def outString():
-	global penIs, mLeft, mRight
-	penWidth = 5 if penIs else 0
-	outey = str(mLeft)+','+str(mRight)+','+str(penWidth)+'|'
+	penIsSize = penWidth if penIs else 0
+	outey = str(mLeft)+','+str(mRight)+','+str(penIsSize)+'|'
 	return outey
 
 def parseSensors(data):
 	global gyro
 	senseList = data.split()
 	gyro = float(senseList[0])
-	return # add stuff
+
+def penUp():
+	global penIs
+	penIs = False
+
+def penDown():
+	global penIs
+	penIs = True
 
 def byeBye():
+	global running
 	running = False
 
 def isRunning():
