@@ -87,7 +87,90 @@ double Robby::getGyro() {
 }
 
 double Robby::getDistance() {
-    double slope = tan(getRotation()*0.0174533);
-    std::cout << slope << "\n";
-    return 1.0;
+    float xPrime = cos((getRotation()-90)*0.0174533)*hostWindow.getSize().x*2;
+    float yPrime = cos((getRotation()-90)*0.0174533)*hostWindow.getSize().x*2;
+    
+    sf::Vector2f pPoint(xPrime,yPrime);
+    sf::Vector2f oPoint = getPosition();
+    sf::Vector2f tlPoint(0,0);
+    sf::Vector2f trPoint(hostWindow.getSize().x,0);
+    sf::Vector2f blPoint(0,hostWindow.getSize().y);
+    sf::Vector2f brPoint(hostWindow.getSize().x,hostWindow.getSize().y);
+        
+    sf::Vector2f topLine = findIntersection(oPoint,pPoint,tlPoint,trPoint);
+    sf::Vector2f botLine = findIntersection(oPoint,pPoint,blPoint,brPoint);
+    sf::Vector2f leftLine = findIntersection(oPoint,pPoint,tlPoint,blPoint);
+    sf::Vector2f rightLine = findIntersection(oPoint,pPoint,trPoint,brPoint);
+    
+    sf::Vector2f intercept;
+    
+    if (topLine.x < -9) {
+        if (botLine.x < -9) {
+            if (leftLine.x < -9) {
+                intercept = rightLine;
+            } else intercept = leftLine;
+        } else intercept = botLine;
+    } else intercept = topLine;
+    
+    double distance = sqrt(pow(intercept.x-getPosition().x,2)+pow(intercept.y-getPosition().y,2));
+    
+    std::cout << distance << "\n";
+    
+    return distance;
+}
+
+sf::Vector2f Robby::findIntersection(sf::Vector2f p1,sf::Vector2f p2,
+                              sf::Vector2f p3,sf::Vector2f p4) {
+    float xD1,yD1,xD2,yD2,xD3,yD3;
+    float dot,deg,len1,len2;
+    float segmentLen1,segmentLen2;
+    float ua,ub,div;
+    
+    // calculate differences
+    xD1=p2.x-p1.x;
+    xD2=p4.x-p3.x;
+    yD1=p2.y-p1.y;
+    yD2=p4.y-p3.y;
+    xD3=p1.x-p3.x;
+    yD3=p1.y-p3.y;
+    
+    // calculate the lengths of the two lines
+    len1=sqrt(xD1*xD1+yD1*yD1);
+    len2=sqrt(xD2*xD2+yD2*yD2);
+    
+    // calculate angle between the two lines.
+    dot=(xD1*xD2+yD1*yD2); // dot product
+    deg=dot/(len1*len2);
+    
+    if(fabs(deg)==1) return sf::Vector2f(-10,-10);
+    
+    // find intersection Pt between two lines
+    sf::Vector2f pt(0,0);
+    div=yD2*xD1-xD2*yD1;
+    ua=(xD2*yD3-yD2*xD3)/div;
+    ub=(xD1*yD3-yD1*xD3)/div;
+    pt.x=p1.x+ua*xD1;
+    pt.y=p1.y+ua*yD1;
+    
+    // calculate the combined length of the two segments
+    // between Pt-p1 and Pt-p2
+    xD1=pt.x-p1.x;
+    xD2=pt.x-p2.x;
+    yD1=pt.y-p1.y;
+    yD2=pt.y-p2.y;
+    segmentLen1=sqrt(xD1*xD1+yD1*yD1)+sqrt(xD2*xD2+yD2*yD2);
+    
+    // calculate the combined length of the two segments
+    // between Pt-p3 and Pt-p4
+    xD1=pt.x-p3.x;
+    xD2=pt.x-p4.x;
+    yD1=pt.y-p3.y;
+    yD2=pt.y-p4.y;
+    segmentLen2=sqrt(xD1*xD1+yD1*yD1)+sqrt(xD2*xD2+yD2*yD2);
+    
+    if(fabs(len1-segmentLen1)>0.01 || fabs(len2-segmentLen2)>0.01)
+        return sf::Vector2f(-10,-10);
+    
+    // return the valid intersection
+    return pt;
 }

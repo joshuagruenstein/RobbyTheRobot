@@ -1,5 +1,5 @@
-#ifndef __Drive__Robby__
-#define __Drive__Robby__
+#ifndef Robby_h
+#define Robby_h
 
 #include <stdio.h>
 #include <SFML/Audio.hpp>
@@ -27,6 +27,8 @@ protected:
     sf::Vector2f lastPoint;
     double speed, deltat, deltar;
     int mLeft, mRight;
+    sf::Vector2f findIntersection(sf::Vector2f p1,sf::Vector2f p2,
+                                  sf::Vector2f p3,sf::Vector2f p4);
 };
 
 #endif
