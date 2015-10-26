@@ -87,8 +87,8 @@ double Robby::getGyro() {
 }
 
 double Robby::getDistance() {
-    float xPrime = cos((getRotation()-90)*0.0174533)*hostWindow.getSize().x*2;
-    float yPrime = cos((getRotation()-90)*0.0174533)*hostWindow.getSize().x*2;
+    float xPrime = cos(getRotation()*0.0174533)*hostWindow.getSize().x*2;
+    float yPrime = sin(getRotation()*0.0174533)*hostWindow.getSize().x*2;
     
     sf::Vector2f pPoint(xPrime,yPrime);
     sf::Vector2f oPoint = getPosition();
@@ -113,9 +113,6 @@ double Robby::getDistance() {
     } else intercept = topLine;
     
     double distance = sqrt(pow(intercept.x-getPosition().x,2)+pow(intercept.y-getPosition().y,2));
-    
-    std::cout << distance << "\n";
-    
     return distance;
 }
 
