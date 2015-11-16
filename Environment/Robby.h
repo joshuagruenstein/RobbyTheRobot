@@ -18,9 +18,9 @@ public:
     void goAccel(int motLeft, int motRight);
     double getGyro(); /// given in radians/sec
     double getDistance();
-    std::vector<sf::RectangleShape> drawPen(int traceWidth);
+    std::vector<sf::RectangleShape> drawPen(int traceWidth, int r, int g, int b);
 protected:
-    sf::RectangleShape drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width);
+    sf::RectangleShape drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width, int r, int g, int b);
     const sf::RenderWindow& hostWindow;
     sf::Clock moveClock;
     std::vector<sf::RectangleShape> penLines;

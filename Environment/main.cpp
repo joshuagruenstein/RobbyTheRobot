@@ -12,12 +12,13 @@ int main(int, char const**) {
     
     while (window.isOpen()) {
         std::vector<double> sensors;
-        sensors.push_back(robot.getDistance());
         sensors.push_back(robot.getGyro());
+        sensors.push_back(robot.getDistance());
         
         std::vector<double> oVect = sock.getOutputs(sensors);
         robot.goAccel(oVect[0],oVect[1]);
-        std::vector<sf::RectangleShape> lines = robot.drawPen(oVect[2]);
+        
+        std::vector<sf::RectangleShape> lines = robot.drawPen(oVect[2],oVect[3],oVect[4],oVect[5]);
 
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -25,9 +26,7 @@ int main(int, char const**) {
                (event.type == sf::Event::KeyPressed &&
                 event.key.code == sf::Keyboard::Escape))
                 window.close();
-        }
-
-        window.clear(sf::Color(255,255,255));
+        } window.clear(sf::Color(255,255,255));
         
         for (auto &i:lines) window.draw(i);
         window.draw(robot);

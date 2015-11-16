@@ -15,14 +15,14 @@ sf::RectangleShape(sf::Vector2f(width,height)), hostWindow(window) {
     speed = _speed;
 }
 
-sf::RectangleShape Robby::drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width) {
+sf::RectangleShape Robby::drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int width, int r, int g, int b) {
     float length = sqrt(pow(pTwo.x-pOne.x,2)+pow(pTwo.y-pOne.y,2));
     
     sf::RectangleShape line(sf::Vector2f(width, length));
     
     line.setOrigin(width/2,0);
-    line.setFillColor(sf::Color(0, 0, 0));
-    line.setOutlineColor(sf::Color(0, 0, 0));
+    line.setFillColor(sf::Color(r, g, b));
+    line.setOutlineColor(sf::Color(r, r, b));
     
     line.rotate(getRotation()+90);
     line.setPosition(pOne);
@@ -30,9 +30,9 @@ sf::RectangleShape Robby::drawLine(sf::Vector2f pOne, sf::Vector2f pTwo, int wid
     return line;
 }
 
-std::vector<sf::RectangleShape> Robby::drawPen(int traceWidth) {
+std::vector<sf::RectangleShape> Robby::drawPen(int traceWidth, int r, int g, int b) {
     if (traceWidth != 0)
-        penLines.push_back(drawLine(lastPoint,getPosition(),traceWidth));
+        penLines.push_back(drawLine(lastPoint,getPosition(),traceWidth,r,g,b));
     lastPoint = getPosition();
     return penLines;
 }
