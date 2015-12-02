@@ -17,12 +17,6 @@ Socket::Socket(void) {
     servAddr.sin_addr.s_addr = inet_addr(HOST);
     
     connectionFd = socket(AF_INET, SOCK_STREAM, 0);
-    
-    localAddr.sin_family = AF_INET;
-    localAddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    localAddr.sin_port = htons(0);
-    rc = bind(connectionFd,(struct sockaddr *) &localAddr, sizeof(localAddr));
-    
     connect(connectionFd,(struct sockaddr *)&servAddr, sizeof(servAddr));
 }
 
